@@ -1,4 +1,4 @@
-package com.example.acn.demo.controller;
+package com.example.acn.demo.service;
 
 import com.example.acn.demo.business.FeatureService;
 import com.example.acn.demo.dto.FeaturesUsersDto;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -22,19 +21,16 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 /**
- * FeatureController test class
+ * FeatureService test class
  * @author emir
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FeatureControllerTest {
+public class FeatureServiceTest {
 
     @InjectMocks
-    private FeatureController featureController;
-
-    @Mock
     private FeatureService featureService;
 
     Feature failedFeature;
@@ -55,11 +51,10 @@ public class FeatureControllerTest {
         featureRepository = Mockito.mock(FeatureRepository.class);
         userRepository = Mockito.mock(UserRepository.class);
         featureService = new FeatureService(featureRepository, userRepository);
-        featureController = new FeatureController(featureService);
 
         failedFeature = new Feature(2,"a",false);
         feature = new Feature(1,"feature1",false);
-        users = new Users(1,"user1","user1",true);
+        users = new Users(1, "user", "pass",true);
 
         failedDto = new FeaturesUsersDto();
         dto = new FeaturesUsersDto(1,1);
@@ -76,7 +71,7 @@ public class FeatureControllerTest {
     @Test
     public void createFeature_InvalidRequest_ShouldThrowException () {
         Throwable thrown = catchThrowable(() -> {
-            featureController.createFeature(failedFeature);
+            featureService.createFeature(failedFeature);
         });
         assertThat(thrown).isInstanceOf(RuntimeException.class);
     }
@@ -87,7 +82,7 @@ public class FeatureControllerTest {
     @Test
     public void createFeature_ValidRequest_ShouldNotThrowException () {
         Throwable thrown = catchThrowable(() -> {
-            featureController.createFeature(feature);
+            featureService.createFeature(feature);
         });
         assertThat(thrown).doesNotThrowAnyException();
     }
@@ -98,7 +93,7 @@ public class FeatureControllerTest {
     @Test
     public void updateFeature_InvalidRequest_ShouldThrowException () {
         Throwable thrown = catchThrowable(() -> {
-            featureController.updateFeature(failedDto);
+            featureService.updateFeature(failedDto);
         });
         assertThat(thrown).isInstanceOf(ResourceNotFoundException.class);
     }
@@ -109,18 +104,18 @@ public class FeatureControllerTest {
     @Test
     public void updateFeature_ValidRequest_ShouldNotThrowException () {
         Throwable thrown = catchThrowable(() -> {
-            featureController.updateFeature(dto);
+            featureService.updateFeature(dto);
         });
         assertThat(thrown).doesNotThrowAnyException();
     }
 
     /**
-     * Testing retrieve features, there is no chance for exception.
+     * Testing get features, there is no chance for exception.
      */
     @Test
     public void retrieveAllFeatures_ShouldNotThrowException () {
         Throwable thrown = catchThrowable(() -> {
-            featureController.retrieveAllFeatures();
+            featureService.getFeatures();
         });
         assertThat(thrown).doesNotThrowAnyException();
     }

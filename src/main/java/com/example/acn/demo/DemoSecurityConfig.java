@@ -1,6 +1,9 @@
 package com.example.acn.demo;
 
+import com.example.acn.demo.auth.CustomAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,6 +27,17 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/h2-console/**");
     }
 
+    /**
+     * This is for enable my custimized provider.
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    @Autowired
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(new CustomAuthenticationProvider());
+    }
+
 
     /**
      * This is for open get-features endpoint for everyone.
@@ -34,7 +48,9 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/get-features").permitAll()
+                .antMatchers("/get-features").hasAnyAuthority("user", "admin")
+                .antMatchers("/update-feature").hasAuthority("admin")
+                .antMatchers("/create-feature").hasAuthority("admin")
                 .anyRequest()
                 .authenticated()
                 .and()

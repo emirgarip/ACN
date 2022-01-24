@@ -47,6 +47,6 @@ public class Feature {
             name = "features_users",
             joinColumns = @JoinColumn(name = "feature_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> userSet;
+    private Set<Users> userSet;
 
 }

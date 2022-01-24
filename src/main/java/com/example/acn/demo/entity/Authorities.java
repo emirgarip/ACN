@@ -5,34 +5,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Set;
+import javax.persistence.*;
 
 /**
- * User entity
+ * Authorities entity
  * @author emir
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class User {
+public class Authorities {
 
-    public User(Integer id, String username) {
+    public Authorities(Integer id, Users username, String authority) {
         this.id = id;
         this.username = username;
+        this.authority = authority;
     }
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String username;
-
-    @ManyToMany(mappedBy = "userSet")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private Set<Feature> featureSet;
+    private Users username;
+
+    private String authority;
 }

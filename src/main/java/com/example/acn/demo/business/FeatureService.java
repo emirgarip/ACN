@@ -2,7 +2,7 @@ package com.example.acn.demo.business;
 
 import com.example.acn.demo.dto.FeaturesUsersDto;
 import com.example.acn.demo.entity.Feature;
-import com.example.acn.demo.entity.User;
+import com.example.acn.demo.entity.Users;
 import com.example.acn.demo.repository.FeatureRepository;
 import com.example.acn.demo.repository.UserRepository;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -47,17 +47,17 @@ public class FeatureService {
         Feature feature = featureRepository
                 .findById(featuresUsersDto.getFeatureId()).orElseThrow(()
                         -> new ResourceNotFoundException("Feature id :: " + featuresUsersDto.getFeatureId()));
-        User user = userRepository
+        Users users = userRepository
                 .findById(featuresUsersDto.getUserId()).orElseThrow(()
                         -> new ResourceNotFoundException("User id :: " + featuresUsersDto.getUserId()));
 
         feature.setIsActive(true);
         if(feature.getUserSet() != null) {
-            feature.getUserSet().add(user);
+            feature.getUserSet().add(users);
         } else {
-            Set<User> userSet = new HashSet<>();
-            userSet.add(user);
-            feature.setUserSet(userSet);
+            Set<Users> usersSet = new HashSet<>();
+            usersSet.add(users);
+            feature.setUserSet(usersSet);
         }
         return feature;
     }
