@@ -48,9 +48,9 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/get-features").hasAnyAuthority("user", "admin")
-                .antMatchers("/update-feature").hasAuthority("admin")
-                .antMatchers("/create-feature").hasAuthority("admin")
+                .antMatchers("/feature/get").hasAnyAuthority("user", "admin")
+                .antMatchers("/feature/update").hasAuthority("admin")
+                .antMatchers("/feature/create").hasAuthority("admin")
                 .anyRequest()
                 .authenticated()
                 .and()

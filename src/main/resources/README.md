@@ -10,9 +10,9 @@ There is another configuration file, which name is DemoSecurityConfig class. Thi
  - AuthenticationManagerBuilder method for enable my custumized AuthenticationProvider.
 
 After starting the application, you can call these endpoints;
- - localhost:8081/create-feature (POST)
- - localhost:8081/update-feature (PUT)
- - localhost:8081/get-features (GET)
+ - localhost:8081/feature/create (POST)
+ - localhost:8081/feature/update (PUT)
+ - localhost:8081/feature/get (GET)
 
 Because of the security requests, users and admin have specific role in Authorities table. You should basic authentication for reaching out the services.
 Credentials are in data.sql file.

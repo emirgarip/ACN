@@ -15,6 +15,7 @@ import java.util.List;
  * @author emir
  */
 @RestController
+@RequestMapping("/feature")
 public class FeatureController {
 
     private FeatureService featureService;
@@ -30,7 +31,7 @@ public class FeatureController {
      * @param feature
      * @return
      */
-    @PostMapping("/create-feature")
+    @PostMapping("/create")
     public ResponseEntity<Object> createFeature(@RequestBody Feature feature) {
         Feature createdFeature = featureService.createFeature(feature);
         URI location = ServletUriComponentsBuilder
@@ -46,7 +47,7 @@ public class FeatureController {
      * @param featuresUsersDto
      * @return
      */
-    @PutMapping("/update-feature")
+    @PutMapping("/update")
     public ResponseEntity<Object> updateFeature(@RequestBody FeaturesUsersDto featuresUsersDto) {
         featureService.updateFeature(featuresUsersDto);
         return ResponseEntity.ok().build();
@@ -56,7 +57,7 @@ public class FeatureController {
      * Retrieving all active features for every users.
      * @return
      */
-    @GetMapping("/get-features")
+    @GetMapping("/get")
     public List<Feature> retrieveAllFeatures() {
         return featureService.getFeatures();
     }
