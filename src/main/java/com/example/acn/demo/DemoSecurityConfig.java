@@ -3,6 +3,7 @@ package com.example.acn.demo;
 import com.example.acn.demo.auth.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -48,9 +49,9 @@ public class DemoSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/feature/get").hasAnyAuthority("user", "admin")
-                .antMatchers("/feature/update").hasAuthority("admin")
-                .antMatchers("/feature/create").hasAuthority("admin")
+                .antMatchers(HttpMethod.GET, "/feature-management/features").hasAnyAuthority("user", "admin")
+                .antMatchers(HttpMethod.POST, "/feature-management/features").hasAuthority("admin")
+                .antMatchers(HttpMethod.PUT, "/feature-management/features").hasAuthority("admin")
                 .anyRequest()
                 .authenticated()
                 .and()
